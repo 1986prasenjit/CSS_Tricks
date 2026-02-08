@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Newsletter Signup</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+      }
+
+      .newsletter-section {
+        background: linear-gradient(135deg, #1e5f5f 0%, #2d7373 100%);
+        padding: 80px 40px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .newsletter-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .newsletter-title {
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+        letter-spacing: 0.5px;
+      }
+
+      .newsletter-description {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1rem;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+
+      .newsletter-form {
+        display: flex;
+        gap: 0;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .email-input {
+        flex: 1;
+        padding: 16px 24px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 50px 0 0 50px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        outline: none;
+        transition: background 0.3s ease;
+      }
+
+      .email-input::placeholder {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .email-input:focus {
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .subscribe-button {
+        padding: 16px 32px;
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 0 50px 50px 0;
+        background: #ffffff;
+        color: #1e5f5f;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .subscribe-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .subscribe-button:active {
+        transform: translateY(0);
+      }
+
+      .message {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        display: none;
+      }
+
+      .message.success {
+        background: rgba(76, 175, 80, 0.2);
+        color: #2e7d32;
+        border: 1px solid rgba(76, 175, 80, 0.3);
+      }
+
+      .message.error {
+        background: rgba(244, 67, 54, 0.2);
+        color: #c62828;
+        border: 1px solid rgba(244, 67, 54, 0.3);
+      }
+
+      @media (max-width: 640px) {
+        .newsletter-section {
+          padding: 60px 24px;
+        }
+
+        .newsletter-title {
+          font-size: 2rem;
+        }
+
+        .newsletter-form {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .email-input {
+          border-radius: 50px;
+        }
+
+        .subscribe-button {
+          border-radius: 50px;
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="newsletter-section">
+      <div class="newsletter-container">
+        <h2 class="newsletter-title">Sign Up to the Newsletter</h2>
+        <p class="newsletter-description">
+          Donec tristique nisi at felis scelerisque aliquam. Nulla est magna
+        </p>
+
+        <form class="newsletter-form" id="newsletterForm">
+          <input
+            type="email"
+            class="email-input"
+            id="emailInput"
+            placeholder="Enter Your Email Here..."
+            required
+            aria-label="Email address"
+          />
+          <button type="submit" class="subscribe-button">Subscribe</button>
+        </form>
+
+        <div class="message" id="message"></div>
+      </div>
+    </section>
+
+    <script>
+      const form = document.getElementById("newsletterForm");
+      const emailInput = document.getElementById("emailInput");
+      const messageDiv = document.getElementById("message");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+          showMessage("Please enter a valid email address.", "error");
+          return;
+        }
+        console.log("Email submitted:", email);
+
+        showMessage(
+          "Thank you for subscribing! Check your email for confirmation.",
+          "success"
+        );
+        emailInput.value = "";
+      });
+
+      function showMessage(text, type) {
+        messageDiv.textContent = text;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.display = "block";
+        setTimeout(() => {
+          messageDiv.style.display = "none";
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>

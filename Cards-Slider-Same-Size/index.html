@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accommodation Section</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #fdfaf5;
+        padding: 40px 20px;
+        min-height: 100vh;
+      }
+
+      .accommodation {
+        max-width: 1200px;
+        margin: auto;
+        text-align: center;
+      }
+
+      .accommodation h2 {
+        font-family: "Cormorant", serif;
+        font-size: 42px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        margin-bottom: 15px;
+        color: #1a1a2e;
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        font-family: "DM Sans", sans-serif;
+        color: #666;
+        font-size: 16px;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto 40px;
+      }
+
+      .slider-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .nav-btn {
+        width: 45px;
+        height: 45px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: #666;
+        transition: color 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .nav-btn:hover {
+        color: #004b48;
+      }
+
+      .slider-wrapper {
+        overflow: hidden;
+        flex: 1;
+      }
+
+      .slider {
+        display: flex;
+        gap: 25px;
+        transition: transform 0.4s ease;
+      }
+
+      /* Remove transition during instant repositioning */
+      .slider.no-transition {
+        transition: none;
+      }
+
+      .card {
+        min-width: calc(33.333% - 17px);
+        max-width: calc(33.333% - 17px);
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        padding: 15px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .card .image-wrap {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 12px 12px 0 0;
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 35% 100%, 0 85%);
+        margin-bottom: 15px;
+      }
+
+      .card .image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card h5 {
+        color: #1a1a2e;
+        font-family: "Cormorant", serif;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        line-height: 1.2;
+        min-height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .card p {
+        color: #6e6e6e;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.6;
+        margin-bottom: 12px;
+        flex-grow: 1;
+        text-align: center;
+      }
+
+      .card h6 {
+        color: #888;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.4;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .card .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .card .icon img {
+        width: 22px;
+        height: 22px;
+      }
+
+      .card .icon .divider {
+        color: #ddd;
+        font-size: 18px;
+      }
+
+      .card .price-booking {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      .card .price-booking h4 {
+        color: #555;
+        font-family: "DM Sans", sans-serif;
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      .card .price-booking a {
+        background-color: #004b48;
+        border-radius: 25px;
+        color: #fff;
+        font-size: 14px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        padding: 12px 22px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .card .price-booking a:hover {
+        background-color: #003835;
+      }
+
+      /* Responsive */
+      @media screen and (max-width: 1024px) {
+        .card {
+          min-width: calc(50% - 13px);
+          max-width: calc(50% - 13px);
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .card {
+          min-width: 100%;
+          max-width: 100%;
+        }
+
+        .nav-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 22px;
+        }
+
+        .accommodation h2 {
+          font-size: 28px;
+          letter-spacing: 2px;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .slider-container {
+          gap: 8px;
+        }
+
+        .card .price-booking {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="accommodation">
+      <h2>Accommodation</h2>
+      <p class="subtitle">
+        Unwind and relax in our 12 Cottage Styled AC Deluxe Rooms & 6 Super
+        Deluxe Rooms inspired by Portuguese & Goan architecture or a family
+        bungalow over-looking the pool. We also have units for large group stay
+        that gives you all the choice you need.
+      </p>
+
+      <div class="slider-container">
+        <button class="nav-btn prev-btn" aria-label="Previous">&#10094;</button>
+
+        <div class="slider-wrapper">
+          <div class="slider">
+            <!-- Card 1 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_62331be816ec4b428cd2543d066c58f6~mv2.png"
+                  alt="Pool Side Bungalow"
+                />
+              </div>
+              <h5>Pool Side AC Bungalow- 3 Bedrooms</h5>
+              <p>
+                For your Birthdays, Anniversaries or any Special Occasion, we
+                have packages for you. Celebrate it with your friends and
+                families only at Pinewood Resort. Call in and Inquire now!
+              </p>
+              <h6>
+                Rooms + Living Size 610 Sqft | L-Shaped Balcony Size 465 Sqft.
+              </h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_d74c9c9887804403b995164646b9e3f0~mv2.png"
+                  alt="Super Deluxe Room"
+                />
+              </div>
+              <h5>Super Deluxe Room: Garden View</h5>
+              <p>
+                Air-Conditioned Cottage type rooms bearing Goan and Portuguese
+                styled exterior with a private cosy sit out balcony.
+              </p>
+              <h6>Room Size: 280Sqft, Balcony:105Sqft</h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_302b1fd4edac4e56a6203eb3c0cdc0ef~mv2.png"
+                  alt="Family Room"
+                />
+              </div>
+              <h5>3 Bedded AC Family Room</h5>
+              <p>
+                A Large room with 3 cosy double beds with wifi connectivity, a
+                wardrobe, desk, luggage rack and ample space for additional cots
+                if needed. As a No-TV concept Resort, this room
+              </p>
+              <h6>Bed: 3 Double Beds</h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_62331be816ec4b428cd2543d066c58f6~mv2.png"
+                  alt="Pool Side Bungalow"
+                />
+              </div>
+              <h5>Pool Side AC Bungalow- 3 Bedrooms</h5>
+              <p>
+                For your Birthdays, Anniversaries or any Special Occasion, we
+                have packages for you. Celebrate it with your friends and
+                families only at Pinewood Resort. Call in and Inquire now!
+              </p>
+              <h6>
+                Rooms + Living Size 610 Sqft | L-Shaped Balcony Size 465 Sqft.
+              </h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_d74c9c9887804403b995164646b9e3f0~mv2.png"
+                  alt="Super Deluxe Room"
+                />
+              </div>
+              <h5>Super Deluxe Room: Garden View</h5>
+              <p>
+                Air-Conditioned Cottage type rooms bearing Goan and Portuguese
+                styled exterior with a private cosy sit out balcony.
+              </p>
+              <h6>Room Size: 280Sqft, Balcony:105Sqft</h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="card">
+              <div class="image-wrap">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_302b1fd4edac4e56a6203eb3c0cdc0ef~mv2.png"
+                  alt="Family Room"
+                />
+              </div>
+              <h5>3 Bedded AC Family Room</h5>
+              <p>
+                A Large room with 3 cosy double beds with wifi connectivity, a
+                wardrobe, desk, luggage rack and ample space for additional cots
+                if needed. As a No-TV concept Resort, this room
+              </p>
+              <h6>Bed: 3 Double Beds</h6>
+              <div class="icon">
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_69c1e4450623445baad3dd028293946e~mv2.png"
+                  alt="AC"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_201acc64fa0740848adacfb5e021adab~mv2.png"
+                  alt="TV"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_6f135085ff224feaae840f648be2528d~mv2.png"
+                  alt="Fridge"
+                />
+                <span class="divider">|</span>
+                <img
+                  src="https://static.wixstatic.com/media/70dd96_022348dc15414d47b8a9093fe7e60576~mv2.png"
+                  alt="WiFi"
+                />
+              </div>
+              <div class="price-booking">
+                <h4>₹ 2,000</h4>
+                <a href="#" class="btn">Book Your Stay</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-btn next-btn" aria-label="Next">&#10095;</button>
+      </div>
+    </section>
+
+    <!-- New infinite scroll JavaScript implementation -->
+    <script>
+      const slider = document.querySelector(".slider");
+      const prevBtn = document.querySelector(".prev-btn");
+      const nextBtn = document.querySelector(".next-btn");
+
+      let currentIndex = 0;
+      let isTransitioning = false;
+      let originalCards = [];
+      let totalOriginalCards = 0;
+      const gap = 25;
+
+      function getCardsPerView() {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+      }
+
+      function getCardWidth() {
+        const card = slider.querySelector(".card");
+        return card ? card.offsetWidth + gap : 0;
+      }
+
+      // Clone cards for infinite effect
+      function setupInfiniteSlider() {
+        // Store original cards HTML
+        const cards = slider.querySelectorAll(".card");
+        originalCards = Array.from(cards).map((card) => card.cloneNode(true));
+        totalOriginalCards = originalCards.length;
+
+        // Clear slider and add clones for infinite effect
+        slider.innerHTML = "";
+
+        // Add clones at the beginning (for going backwards)
+        originalCards.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add("clone");
+          slider.appendChild(clone);
+        });
+
+        // Add original cards
+        originalCards.forEach((card) => {
+          slider.appendChild(card.cloneNode(true));
+        });
+
+        // Add clones at the end (for going forwards)
+        originalCards.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add("clone");
+          slider.appendChild(clone);
+        });
+
+        // Start at the first "real" card (after the prepended clones)
+        currentIndex = totalOriginalCards;
+        updateSliderPosition(false);
+      }
+
+      function updateSliderPosition(animate = true) {
+        const cardWidth = getCardWidth();
+        const translateX = currentIndex * cardWidth;
+
+        if (!animate) {
+          slider.classList.add("no-transition");
+        } else {
+          slider.classList.remove("no-transition");
+        }
+
+        slider.style.transform = `translateX(-${translateX}px)`;
+
+        if (!animate) {
+          // Force reflow
+          slider.offsetHeight;
+          slider.classList.remove("no-transition");
+        }
+      }
+
+      function nextSlide() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        currentIndex++;
+        updateSliderPosition(true);
+      }
+
+      function prevSlide() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        currentIndex--;
+        updateSliderPosition(true);
+      }
+
+      // Handle infinite loop jump
+      slider.addEventListener("transitionend", () => {
+        isTransitioning = false;
+
+        // If we've scrolled past the last real card, jump to the first real card
+        if (currentIndex >= totalOriginalCards * 2) {
+          currentIndex = totalOriginalCards;
+          updateSliderPosition(false);
+        }
+
+        // If we've scrolled before the first real card, jump to the last real card
+        if (currentIndex < totalOriginalCards) {
+          currentIndex = totalOriginalCards * 2 - 1;
+          updateSliderPosition(false);
+        }
+      });
+
+      prevBtn.addEventListener("click", prevSlide);
+      nextBtn.addEventListener("click", nextSlide);
+
+      // Handle resize
+      window.addEventListener("resize", () => {
+        updateSliderPosition(false);
+      });
+
+      let autoPlayInterval;
+
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+          nextSlide();
+        }, 2000); // Slides every 2 seconds
+      }
+
+      function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+      }
+
+      // Pause auto-play on hover for better UX
+      const sliderContainer = document.querySelector(".slider-container");
+      sliderContainer.addEventListener("mouseenter", stopAutoPlay);
+      sliderContainer.addEventListener("mouseleave", startAutoPlay);
+
+      // Initialize
+      setupInfiniteSlider();
+      startAutoPlay(); // Start auto-play on page load
+    </script>
+  </body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Right to Left Slider</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Public Sans", sans-serif;
+        background: #fff;
+      }
+
+      .acco {
+        padding: 60px 0 120px;
+      }
+
+      .container {
+        width: 85%;
+        margin: auto;
+      }
+
+      .main-title {
+        text-align: center;
+        font-weight: 800;
+        font-size: 36px;
+        color: #ec1c22;
+      }
+
+      .sub-title {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+      }
+
+      .sub-title span {
+        width: 40px;
+        height: 2px;
+        background: #2d2d2d;
+      }
+
+      /* ---------- ACCORDION ---------- */
+
+      .accordion {
+        position: relative;
+        margin-top: 70px;
+      }
+
+      .accordion-line {
+        border: 1px solid #e8e8e8;
+      }
+
+      .accordion-button {
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 22px 0;
+        font-size: 22px;
+        font-weight: 500;
+        color: #9199aa;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .accordion-button.active {
+        font-size: 28px;
+        font-weight: 700;
+        color: #000;
+      }
+
+      .accordion-button::after {
+        content: "\f061";
+        font-family: "Font Awesome 6 Free", sans-serif;
+        font-weight: 900;
+        margin-left: auto;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid #9199aa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9199aa;
+        transform: rotate(-45deg);
+        transition: background 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      .accordion-button.active::after {
+        background: #51830d;
+        color: #fff;
+        border-color: #51830d;
+      }
+
+      .accordion-body {
+        height: 0;
+        overflow: hidden;
+        transition: height 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .accordion-body p {
+        padding: 12px 0 22px;
+        max-width: 620px;
+        color: #767c8f;
+      }
+
+      .image-stage {
+        position: absolute;
+        top: -20px;
+        right: 80px;
+        width: 500px;
+        height: 500px;
+        border-radius: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      .image-stage img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+        overflow: hidden;
+        border-radius: 15px;
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 420ms ease,
+          transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .image-stage img.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .dots-decoration {
+        position: absolute;
+        top: 427px;
+        right: 98px;
+        transform: translateY(-50%);
+        z-index: 2;
+      }
+
+      /* ---------- MOBILE ---------- */
+      @media (max-width: 992px) {
+        .accordion {
+          display: flex;
+          flex-direction: column;
+        }
+        .acco {
+          padding: 20px 0 12px;
+        }
+
+        .accordion::after {
+          display: none;
+        }
+
+        .image-stage {
+          position: static;
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          margin-top: clamp(20px, 6vw, 32px);
+          margin-left: auto;
+          margin-right: auto;
+          top: auto;
+          right: auto;
+          order: 999;
+        }
+
+        .image-stage img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
+          max-height: 400px;
+        }
+
+        .dots-decoration {
+          display: none;
+        }
+
+        .accordion-item {
+          order: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .image-stage img {
+          max-height: 320px;
+        }
+
+        .accordion-button {
+          padding: clamp(16px, 2vw, 20px) 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          width: 90vw;
+        }
+
+        .main-title {
+          font-size: clamp(20px, 2.5vw, 28px);
+        }
+
+        .image-stage {
+          margin-top: clamp(16px, 5vw, 24px);
+        }
+
+        .image-stage img {
+          max-height: 280px;
+        }
+
+        .accordion-button::after {
+          width: clamp(28px, 3.5vw, 36px);
+          height: clamp(28px, 3.5vw, 36px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="acco">
+      <div class="container">
+        <h2 class="main-title">Quality at every step</h2>
+
+        <div class="sub-title">
+          <span></span>
+          <div>Built on trust</div>
+          <span></span>
+        </div>
+
+        <div class="accordion" id="accordion">
+          <!-- 1 -->
+          <div class="accordion-item">
+            <div class="accordion-line"></div>
+            <button class="accordion-button active">
+              Farm collection centres
+            </button>
+            <div class="accordion-body" style="height: auto">
+              <p>
+                We source directly from farmers, select the best produce at our
+                collection centres, and deliver it fresh to your doorstep.
+              </p>
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_887f5cbfa3cf4fb8835f69ddf1fa0a52~mv2.jpg"
+                data-image
+                hidden
+                alt="Farm collection centres"
+              />
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="accordion-item">
+            <button class="accordion-button">State of the art food park</button>
+            <div class="accordion-body">
+              <p>
+                We source directly from farmers, select the best produce at our
+                collection centres, and deliver it fresh to your doorstep.
+              </p>
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_887f5cbfa3cf4fb8835f69ddf1fa0a52~mv2.jpg"
+                data-image
+                hidden
+                alt="State of the art food park"
+              />
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="accordion-item">
+            <button class="accordion-button">
+              Food safety compliant warehouse
+            </button>
+            <div class="accordion-body">
+              <p>
+                We source directly from farmers, select the best produce at our
+                collection centres, and deliver it fresh to your doorstep.
+              </p>
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_887f5cbfa3cf4fb8835f69ddf1fa0a52~mv2.jpg"
+                data-image
+                hidden
+                alt="Food safety compliant warehouse"
+              />
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="accordion-item">
+            <button class="accordion-button">Cold chain logistics</button>
+            <div class="accordion-body">
+              <p>
+                Temperature-controlled logistics ensure freshness is maintained
+                from farm to final delivery.
+              </p>
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_887f5cbfa3cf4fb8835f69ddf1fa0a52~mv2.jpg"
+                data-image
+                hidden
+                alt="Cold chain logistics"
+              />
+            </div>
+          </div>
+
+          <!-- IMAGE FRAME -->
+          <div class="image-stage">
+            <img
+              id="activeImage"
+              class="show"
+              src="https://static.wixstatic.com/media/a1b7c9_887f5cbfa3cf4fb8835f69ddf1fa0a52~mv2.jpg"
+              alt=""
+            />
+          </div>
+
+          <!-- RED DOTS DECORATION -->
+          <img
+            src="https://static.wixstatic.com/media/17ca95_d960879196a949589539c68d57ed3931~mv2.png"
+            class="dots-decoration"
+            alt=""
+          />
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const accordion = document.getElementById("accordion");
+      const buttons = accordion.querySelectorAll(".accordion-button");
+      const activeImage = document.getElementById("activeImage");
+
+      function openBody(body) {
+        body.style.height = body.scrollHeight + "px";
+      }
+
+      function closeBody(body) {
+        body.style.height = "0px";
+      }
+
+      function updateImage(body) {
+        const img = body.querySelector("[data-image]");
+        if (!img) return;
+
+        activeImage.classList.remove("show");
+
+        setTimeout(() => {
+          activeImage.src = img.src;
+          activeImage.onload = () => {
+            activeImage.classList.add("show");
+          };
+        }, 120);
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const body = btn.nextElementSibling;
+
+          buttons.forEach((b) => {
+            b.classList.remove("active");
+            closeBody(b.nextElementSibling);
+          });
+
+          btn.classList.add("active");
+          openBody(body);
+          updateImage(body);
+        });
+      });
+    </script>
+  </body>
+</html>

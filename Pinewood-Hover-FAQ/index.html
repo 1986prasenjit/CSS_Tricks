@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resort Essence Showcase</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant:wght@300;700&family=DM+Sans:wght@100;400;700&family=Qwitcher+Grypen:wght@400;700&display=swap");
+
+      :root {
+        --primary-color: #014c49;
+        --secondary-color: #2b2d42;
+        --text-gray: #767c8f;
+        --border-light: #e8e8e8;
+        --track-bg: #e6e9ef;
+        --transition-speed: 0.5s;
+        --dot-color: #cbd5e1;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background-color: transparent;
+        overflow-x: hidden;
+        color: var(--secondary-color);
+      }
+      .scroll-pair-section {
+        padding: 0;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      .title-holder {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-top: 10px;
+      }
+
+      .title-holder h5 {
+        font-family: "Qwitcher Grypen", cursive;
+        font-size: clamp(35px, 6vw, 50px);
+        color: var(--primary-color);
+        margin-bottom: 5px;
+        line-height: 1;
+      }
+
+      .title-holder h2 {
+        font-family: "Cormorant", serif;
+        font-weight: 700;
+        font-size: clamp(28px, 5vw, 52px);
+        line-height: 1.1;
+        text-transform: uppercase;
+      }
+
+      .showcase-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: center;
+        width: 100%;
+      }
+
+      @media (min-width: 551px) {
+        .showcase-container {
+          grid-template-columns: 1fr 1.1fr;
+          gap: clamp(20px, 4vw, 60px);
+        }
+      }
+
+      .content-area {
+        position: relative;
+        padding-left: clamp(20px, 4vw, 45px);
+      }
+
+      .scroll-track {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 4px;
+        background: var(--track-bg);
+        height: 100%;
+        border-radius: 10px;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background-color: var(--primary-color);
+        transition: top var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1),
+          height var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        height: 0;
+        z-index: 2;
+        border-radius: 10px;
+      }
+      .scroll-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px 0;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border-light);
+        transition: all 0.3s ease;
+      }
+
+      .scroll-item:last-child {
+        border-bottom: none;
+      }
+
+      .scroll-item svg {
+        width: clamp(32px, 4vw, 42px);
+        height: clamp(32px, 4vw, 42px);
+        flex-shrink: 0;
+      }
+
+      .icon-path {
+        fill: #bbb;
+        transition: fill 0.3s ease;
+      }
+
+      .scroll-item h6 {
+        font-family: "Cormorant", serif;
+        font-weight: 700;
+        font-size: clamp(20px, 2.5vw, 32px);
+        color: rgba(43, 45, 66, 0.4);
+        margin-bottom: 4px;
+        transition: color 0.3s ease;
+        line-height: 1.2;
+      }
+
+      .scroll-item p {
+        font-size: clamp(14px, 1.5vw, 16px);
+        line-height: 1.4;
+        color: var(--text-gray);
+      }
+
+      .scroll-item.active h6 {
+        color: var(--primary-color);
+      }
+
+      .scroll-item.active .icon-path {
+        fill: var(--primary-color);
+      }
+
+      .image-area {
+        position: relative;
+        height: clamp(300px, 45vw, 550px);
+        width: 100%;
+      }
+
+      @media (max-width: 550px) {
+        .image-area {
+          display: none !important;
+        }
+
+        .showcase-container {
+          grid-template-columns: 1fr;
+        }
+
+        .scroll-pair-section {
+          padding: 0 10px;
+        }
+
+        .title-holder {
+          margin-bottom: 20px;
+        }
+      }
+
+      .dot-pattern {
+        position: absolute;
+        width: clamp(60px, 12vw, 120px);
+        height: clamp(60px, 12vw, 120px);
+        z-index: 0;
+      }
+
+      .dot-pattern img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0.6;
+      }
+
+      .dots-tr {
+        top: 20px;
+        right: -10px;
+      }
+
+      .dots-bl {
+        bottom: 15%;
+        left: 0;
+      }
+
+      .solid-pair {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(15px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+      }
+
+      .solid-pair.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+      }
+
+      .img-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .top-img {
+        position: absolute;
+        width: 78%;
+        height: 55%;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        top: 0;
+        left: 0;
+        z-index: 1;
+        border: 3px solid #fff;
+      }
+
+      .bottom-img {
+        position: absolute;
+        width: 82%;
+        height: 55%;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        bottom: 0;
+        right: 0;
+        border: 3px solid #fff;
+        z-index: 2;
+      }
+      @media (min-width: 551px) and (max-width: 900px) {
+        .image-area {
+          height: 380px;
+        }
+        .top-img {
+          width: 85%;
+          height: 50%;
+        }
+        .bottom-img {
+          width: 85%;
+          height: 50%;
+          bottom: 10%;
+        }
+        .scroll-item {
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="scroll-pair-section">
+      <div class="title-holder">
+        <h5>Explore Us</h5>
+        <h2>Discover The Essence Of Our Resort</h2>
+      </div>
+
+      <div class="showcase-container">
+        <!-- Part 1: Content Selection -->
+        <div class="content-area">
+          <div class="scroll-track">
+            <div class="scroll-indicator"></div>
+          </div>
+
+          <div class="scroll-list">
+            <!-- Swimming Pool Section -->
+            <div class="scroll-item active" data-index="0">
+              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  class="icon-path"
+                  d="m361.88 321.716-24.599-39.647c25.816 32.077 73.585 33.671 101.473 4.016 25.464-27.077 24.164-69.6-2.916-95.068-27.066-25.456-69.598-24.165-95.067 2.917-19.566 20.806-23.115 50.389-12.099 74.259l-59.504-95.904 88.302-25.481c27.423-7.913 40.383-39.303 26.45-64.27-10.117-18.128-31.115-26.77-51.059-21.014L199.177 100.1c-34.661 10.003-50.183 50.295-31.151 80.971l40.406 65.123-70.863 43.969c85.253 1.959 146.851 27.916 224.311 31.553zM19.105 365.89c193.797-55.09 266.988 56.126 481.68.085 8.016-2.092 12.817-10.287 10.725-18.302s-10.287-12.816-18.302-10.725c-206.264 53.844-279.556-57.55-482.306.085-7.968 2.265-12.592 10.561-10.327 18.53 2.266 7.97 10.565 12.592 18.53 10.327zM493.208 406.948c-206.643 53.942-279.154-57.666-482.306.085-7.968 2.265-12.592 10.561-10.327 18.53s10.564 12.593 18.53 10.327c193.797-55.09 266.988 56.126 481.68.085 8.016-2.092 12.817-10.287 10.725-18.302-2.092-8.016-10.287-12.817-18.302-10.725z"
+                />
+              </svg>
+              <div>
+                <h6>Swimming Pool</h6>
+                <p>
+                  Dive into crystal-clear waters and enjoy a refreshing swim
+                  surrounded by serene views.
+                </p>
+              </div>
+            </div>
+
+            <!-- Playground Section -->
+            <div class="scroll-item" data-index="1">
+              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  class="icon-path"
+                  d="M504.984 407.552a23.229 23.229 0 0 0-16.809-6.578c-33.187.855-64.219-6.478-92.22-26.71-25.3-18.279-45.075-44.849-61.547-71.479-9.209-14.888-17.894-33.443-42.745-52.21-30.764-23.236-71.898-33.537-109.531-33.63v-50.912l55.611 41.751c25.235 6.452 49.633 17.687 70.077 34.915 18.506 15.595 27.542 30.093 35.339 43.223l10.051-4.423 5.98 29.697c12.223 17.828 24.964 32.867 39.287 44.615a16.604 16.604 0 0 0 1.541-10.952l-18.14-90.084a16.697 16.697 0 0 0-8.601-11.481 16.695 16.695 0 0 0-14.333-.566l-23.457 10.049-14.58-58.596 56.505-77.152c4.538-6.196 3.194-14.9-3.003-19.439s-14.898-3.194-19.44 3.003l-57.133 78.01-38.956 10.266-76.747-57.619v-9.2a17.22 17.22 0 0 0-6.399-13.395l-75.536-61.009a14.535 14.535 0 0 0-18.263 0L6.399 108.655A17.224 17.224 0 0 0 0 122.05v337.033a8.497 8.497 0 0 0 8.497 8.497h20.366a8.498 8.498 0 0 0 8.498-8.497v-90.074h107.411v90.074a8.497 8.497 0 0 0 8.497 8.497h20.366a8.498 8.498 0 0 0 8.498-8.497V284.537c18.986 2.052 43.324 7.407 65.79 20.479 18.565 10.803 33.309 25.424 43.879 43.523 23.311 39.917 44.09 65.968 67.373 84.471 38.645 30.711 83.079 38.657 132.495 32.511l.029-.003C503.326 464.062 512 454.201 512 442.482v-18.3a23.22 23.22 0 0 0-7.016-16.63z"
+                />
+              </svg>
+              <div>
+                <h6>Playground</h6>
+                <p>
+                  A fun-filled space for kids and families to play and laugh.
+                </p>
+              </div>
+            </div>
+
+            <!-- Garden Section -->
+            <div class="scroll-item" data-index="2">
+              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  class="icon-path"
+                  d="M32.415 397.24H0v30h32.415v38.692H0v30h512v-30H368.329V338.771h2.865c24.831 0 45.032-20.201 45.032-45.032V290.6h-30v3.139c0 8.289-6.744 15.032-15.032 15.032h-2.865v-88.369h22.124c22.705 0 41.959-15.058 48.304-35.709h16.012c31.56 0 57.236-25.676 57.236-57.236v-.38c0-26.839-18.57-49.423-43.536-55.579-6.229-31.555-34.113-55.425-67.468-55.425H290.064c-32.769 0-60.257 23.037-67.119 53.768h-7.764c-31.561 0-57.237 25.676-57.237 57.236v.38c0 31.561 25.676 57.236 57.237 57.236h18.698c5.585 18.178 21.174 32.016 40.313 35.072v4.879c0 33.229 27.034 60.264 60.264 60.264h3.874v181.026h-77.071V427.24h32.415v-30h-32.415V289.78H32.415zm30-24.891h168.843v24.892H62.415zm0 54.891h168.843v38.692H62.415zm275.914-172.334h-3.874c-16.688 0-30.264-13.576-30.264-30.264v-4.241h34.138z"
+                />
+              </svg>
+              <div>
+                <h6>Garden</h6>
+                <p>
+                  Stroll through our lush green gardens and experience nature.
+                </p>
+              </div>
+            </div>
+
+            <!-- Dining Section -->
+            <div class="scroll-item" data-index="3">
+              <!-- Bold Fork & Knife Icon -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                width="512"
+                height="512"
+                x="0"
+                y="0"
+                viewBox="0 0 173.397 173.397"
+                style="enable-background: new 0 0 512 512"
+                xml:space="preserve"
+                fill-rule="evenodd"
+                class=""
+              >
+                <g>
+                  <path
+                    d="M63.243 129.457H15.202a2.388 2.388 0 0 1-2.382-2.381v-64.86a2.388 2.388 0 0 1 2.382-2.38c4.345 0 8.423 1.696 11.519 4.762 3.066 3.066 4.762 7.143 4.762 11.52v39.022h23.575c5.834 0 10.567 4.732 10.567 10.566v1.37a2.388 2.388 0 0 1-2.382 2.381z"
+                    fill="#bbbbbb"
+                    opacity="1"
+                    data-original="#bbbbbb"
+                    class=""
+                  ></path>
+                  <path
+                    d="M17.791 161.872c-.119 0-.208 0-.327-.03a2.382 2.382 0 0 1-2.054-2.679l4.346-32.414c.178-1.31 1.369-2.233 2.679-2.054s2.232 1.369 2.053 2.679l-4.345 32.444a2.35 2.35 0 0 1-2.352 2.054zM61.785 161.872c-1.131 0-2.143-.833-2.352-1.994l-5.477-32.415c-.208-1.31.655-2.53 1.935-2.739 1.31-.208 2.53.655 2.739 1.935l5.506 32.415c.209 1.31-.655 2.53-1.934 2.738-.15.06-.268.06-.417.06zM158.761 129.457h-48.042a2.388 2.388 0 0 1-2.381-2.381v-1.37c0-5.833 4.733-10.566 10.567-10.566h23.604V76.117c0-4.346 1.697-8.424 4.763-11.52 3.065-3.065 7.143-4.762 11.519-4.762a2.388 2.388 0 0 1 2.381 2.381v64.86c-.03 1.31-1.072 2.381-2.411 2.381z"
+                    fill="#bbb"
+                    opacity="1"
+                    data-original="#bbbbbb"
+                    class=""
+                  ></path>
+                  <path
+                    d="M156.172 161.872c-1.16 0-2.203-.863-2.352-2.054l-4.345-32.415a2.382 2.382 0 0 1 2.054-2.678c1.31-.18 2.5.744 2.678 2.053l4.346 32.415a2.382 2.382 0 0 1-2.054 2.679h-.327zM112.178 161.872c-.119 0-.268 0-.387-.03a2.344 2.344 0 0 1-1.935-2.738l5.507-32.415a2.344 2.344 0 0 1 2.739-1.935 2.343 2.343 0 0 1 1.934 2.739l-5.506 32.385c-.209 1.16-1.22 1.994-2.352 1.994zM123.459 99.334H49.343c-4.495 0-8.186-3.661-8.186-8.186 0-4.494 3.661-8.185 8.186-8.185h74.116c4.495 0 8.186 3.661 8.186 8.186 0 4.524-3.691 8.185-8.186 8.185zM88.723 115.284h-4.644a16.212 16.212 0 0 1-11.52-4.763 16.292 16.292 0 0 1-3.835-6.071h35.322c-2.247 6.32-8.354 10.834-15.323 10.834z"
+                    fill="#bbbbbb"
+                    opacity="1"
+                    data-original="#bbbbbb"
+                    class=""
+                  ></path>
+                  <path
+                    d="M160.517 161.872H12.879a2.388 2.388 0 0 1-2.381-2.381 2.388 2.388 0 0 1 2.381-2.382h147.638a2.388 2.388 0 0 1 2.381 2.382 2.388 2.388 0 0 1-2.381 2.381z"
+                    fill="#bbbbbb"
+                    opacity="1"
+                    data-original="#bbbbbb"
+                    class=""
+                  ></path>
+                  <path
+                    d="M98.575 161.872c-.149 0-.298 0-.476-.03-.149-.03-.298-.09-.447-.149-.148-.06-.297-.148-.416-.208-.12-.09-.238-.179-.357-.298-.12-.119-.209-.238-.298-.357-.09-.119-.149-.268-.209-.417-.06-.148-.119-.297-.148-.446s-.06-.298-.06-.476c0-.15.03-.298.06-.477.03-.148.089-.297.148-.446.06-.149.15-.268.209-.417.09-.119.178-.268.298-.357.119-.119.238-.208.357-.298.119-.089.268-.148.416-.208.15-.06.298-.119.447-.149.298-.06.625-.06.923 0 .148.03.297.09.446.15s.268.118.417.207c.119.09.238.18.357.298.119.12.208.238.298.357.089.12.148.268.208.417.06.149.12.298.149.447s.03.297.03.476c0 .148 0 .297-.03.476-.03.149-.09.298-.149.446-.06.15-.12.268-.208.417-.09.12-.179.238-.298.357-.12.12-.238.209-.357.298-.12.09-.268.149-.417.208a2.61 2.61 0 0 1-.446.15c-.15 0-.298.029-.447.029zM105.451 57.96H67.917a4.028 4.028 0 0 1-3.87-2.828 4.017 4.017 0 0 1 1.31-4.346l18.038-19.585 4.762-.06 19.735 19.497c1.369 1.012 1.934 2.738 1.458 4.375-.506 1.756-2.054 2.947-3.899 2.947zM86.401 161.872a2.388 2.388 0 0 1-2.381-2.381v-48.637c0-1.31 1.071-2.382 2.38-2.382s2.382 1.072 2.382 2.382v48.637a2.388 2.388 0 0 1-2.381 2.381zM83.692 13.877l-.21 12.206 4.764-.06.209-12.086a2.408 2.408 0 0 0-2.352-2.411h-.03c-1.31 0-2.351 1.041-2.38 2.35z"
+                    fill="#bbbbbb"
+                    opacity="1"
+                    data-original="#bbbbbb"
+                    class=""
+                  ></path>
+                </g>
+              </svg>
+              <div>
+                <h6>Dining</h6>
+                <p>
+                  Savor exquisite flavors with our chef's special curated menu
+                  and open-air dining experience.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 2: Image View -->
+        <div class="image-area">
+          <!-- Background Dots -->
+          <div class="dot-pattern dots-tr">
+            <img
+              src="https://static.wixstatic.com/media/70dd96_ade3db1582bd41469e03a89a51d8bd78~mv2.png"
+              alt="Decorative dot pattern"
+            />
+          </div>
+          <div class="dot-pattern dots-bl">
+            <img
+              src="https://static.wixstatic.com/media/70dd96_c963c20878354df3aceddb9c72e375e2~mv2.png"
+              alt="Decorative dot pattern"
+            />
+          </div>
+
+          <!-- Swimming Pool Pair -->
+          <div class="solid-pair active" data-index="0">
+            <div class="img-container">
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_73a75c64644e41ab988fffa79777483f~mv2.jpg"
+                class="top-img"
+                alt="Pool"
+              />
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_92f3bbea7a2a46e8b46a3dd6d23a1b45~mv2.jpg"
+                class="bottom-img"
+                alt="Pool Detail"
+              />
+            </div>
+          </div>
+
+          <!-- Playground Pair -->
+          <div class="solid-pair" data-index="1">
+            <div class="img-container">
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_2e9ac00051ed411b81956758a9976b35~mv2.jpg"
+                class="top-img"
+                alt="Play"
+              />
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_4d33a8711e5f4abbb4c54e37a0511744~mv2.jpg"
+                class="bottom-img"
+                alt="Play Detail"
+              />
+            </div>
+          </div>
+
+          <!-- Garden Pair -->
+          <div class="solid-pair" data-index="2">
+            <div class="img-container">
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_05eac27f4f66414da19aaa8bf1212984~mv2.jpg"
+                class="top-img"
+                alt="Garden"
+              />
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_57220ef487db45038522618b0dd1c18c~mv2.jpg"
+                class="bottom-img"
+                alt="Garden Detail"
+              />
+            </div>
+          </div>
+
+          <!-- Dining Pair -->
+          <div class="solid-pair" data-index="3">
+            <div class="img-container">
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_3a3109b85e3441e2b56f99f0b8112e19~mv2.jpg"
+                class="top-img"
+                alt="Dining"
+              />
+              <img
+                src="https://static.wixstatic.com/media/a1b7c9_83bd298a50f140d5aaf21aa1682df8a6~mv2.jpg"
+                class="bottom-img"
+                alt="Garden Detail"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const items = document.querySelectorAll(".scroll-item");
+        const pairs = document.querySelectorAll(".solid-pair");
+        const indicator = document.querySelector(".scroll-indicator");
+
+        function updateDisplay(index) {
+          items.forEach((i) => i.classList.remove("active"));
+          pairs.forEach((p) => p.classList.remove("active"));
+
+          const targetItem = items[index];
+          const targetPair = pairs[index];
+
+          if (targetItem && targetPair) {
+            targetItem.classList.add("active");
+            targetPair.classList.add("active");
+
+            indicator.style.top = targetItem.offsetTop + "px";
+            indicator.style.height = targetItem.offsetHeight + "px";
+          }
+        }
+
+        items.forEach((item, index) => {
+          item.addEventListener("click", () => updateDisplay(index));
+
+          item.addEventListener("mouseenter", () => {
+            if (window.innerWidth > 550) {
+              updateDisplay(index);
+            }
+          });
+        });
+
+        const handleSync = () => {
+          const active = document.querySelector(".scroll-item.active");
+          if (active) {
+            indicator.style.top = active.offsetTop + "px";
+            indicator.style.height = active.offsetHeight + "px";
+          }
+        };
+
+        window.addEventListener("load", handleSync);
+        window.addEventListener("resize", handleSync);
+        setTimeout(handleSync, 200);
+      });
+    </script>
+  </body>
+</html>

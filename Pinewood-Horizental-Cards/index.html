@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offers & Deals – Horizontal Accordion</title>
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --green: #0f4f4c;
+        --light-bg: #f8f7f4;
+        --text-dark: #1e1e1e;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--light-bg);
+        color: var(--text-dark);
+      }
+
+      .offers-wrapper {
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 0 20px;
+      }
+
+      .offers-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .offers-header span {
+        display: block;
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        color: var(--green);
+        margin-bottom: 10px;
+      }
+
+      .offers-header h2 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 42px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        color: var(--green);
+      }
+
+      /* Accordion */
+      .accordion {
+        display: flex;
+        gap: 20px;
+        height: 420px;
+      }
+
+      .accordion-item {
+        position: relative;
+        flex: 1;
+        overflow: hidden;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: flex 0.6s ease;
+        background: #000;
+      }
+
+      /* Open state */
+      .accordion-item.active {
+        flex: 4;
+      }
+
+      .accordion-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+
+      .accordion-item.active img {
+        transform: scale(1.08);
+      }
+
+      .accordion-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.75),
+          rgba(0, 0, 0, 0.15)
+        );
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+
+      .accordion-title-vertical {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        transition: opacity 0.4s ease;
+      }
+
+      .accordion-item.active .accordion-title-vertical {
+        opacity: 0;
+      }
+
+      .accordion-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        color: #fff;
+        max-width: 85%;
+      }
+
+      .accordion-item.active .accordion-content {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .accordion-content h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+
+      .accordion-content p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #e6e6e6;
+        margin-bottom: 14px;
+      }
+
+      .accordion-content a {
+        display: inline-block;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 10px 18px;
+        border: 1px solid #fff;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      @media (max-width: 480px) {
+        .accordion {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .accordion-item {
+          flex: unset;
+          height: 110px;
+          transition: height 0.4s ease;
+        }
+
+        .accordion-item.active {
+          height: 320px;
+        }
+
+        .accordion-title-vertical {
+          position: static;
+          transform: none;
+          margin-bottom: 10px;
+          text-align: center;
+          font-size: 20px;
+        }
+
+        .accordion-content {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <section class="offers-wrapper">
+      <div class="offers-header">
+        <span>Offers & Deals</span>
+        <h2>GET MORE UPDATES<br />FOR OFFERS AND DEALS</h2>
+      </div>
+
+      <div class="accordion">
+        <!-- Item 1 -->
+        <div class="accordion-item">
+          <img
+            src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1600&auto=format&fit=crop"
+            alt="Corporate"
+          />
+          <div class="accordion-title-vertical">2 Nights Getaway</div>
+          <div class="accordion-overlay">
+            <div class="accordion-content">
+              <h3>2 Nights Getaway Deal</h3>
+              <p>
+                Book for two nights and enjoy exclusive offers on your stay or
+                meals. Perfect for relaxing with your loved ones.
+              </p>
+              <a href="#">Know More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="accordion-item">
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1600&auto=format&fit=crop"
+            alt="Celebrations"
+          />
+          <div class="accordion-title-vertical">Celebrations</div>
+          <div class="accordion-overlay">
+            <div class="accordion-content">
+              <h3>Birthdays & Anniversaries</h3>
+              <p>
+                Celebrate your special moments with custom decorations, dining
+                and unforgettable experiences.
+              </p>
+              <a href="#">Know More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="accordion-item">
+          <img
+            src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1600&auto=format&fit=crop"
+            alt="Corporate"
+          />
+          <div class="accordion-title-vertical">Corporate</div>
+          <div class="accordion-overlay">
+            <div class="accordion-content">
+              <h3>Corporate Packages</h3>
+              <p>
+                Conference halls with modern facilities. Choose day or overnight
+                packages tailored for corporate needs.
+              </p>
+              <a href="#">Know More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const items = document.querySelectorAll(".accordion-item");
+      const isMobile = globalThis.matchMedia("(max-width: 480px)");
+      globalThis.addEventListener("load", () => {
+        if (items.length) items[0].classList.add("active");
+      });
+
+      items.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          if (!isMobile.matches) {
+            items.forEach((i) => i.classList.remove("active"));
+            item.classList.add("active");
+          }
+        });
+      });
+      items.forEach((item) => {
+        item.addEventListener("click", () => {
+          if (isMobile.matches) {
+            items.forEach((i) => i.classList.remove("active"));
+            item.classList.add("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

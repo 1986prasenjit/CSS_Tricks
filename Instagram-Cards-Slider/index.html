@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instagram Style Video Carousel</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto;
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .carousel-container {
+        max-width: 1400px;
+        margin: auto;
+      }
+
+      .carousel-header {
+        text-align: center;
+        color: #fff;
+        margin-bottom: 40px;
+      }
+
+      .carousel-wrapper {
+        position: relative;
+        padding: 0 60px;
+      }
+
+      .carousel {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 20px 0;
+        scrollbar-width: none;
+        cursor: grab;
+      }
+
+      .carousel::-webkit-scrollbar {
+        display: none;
+      }
+
+      .carousel.grabbing {
+        cursor: grabbing;
+      }
+
+      .card {
+        flex: 0 0 280px;
+        height: 500px;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .card video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .card-overlay {
+        position: absolute;
+        inset: 0;
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+      .card-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.95);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        pointer-events: auto;
+        transition: all 0.3s ease-in-out;
+      }
+      .card:hover .card-play {
+        display: flex;
+      }
+
+      .card-play.play::after {
+        content: "";
+        border-left: 18px solid #06e733;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        margin-left: 4px;
+      }
+      .card-play.pause::before,
+      .card-play.pause::after {
+        content: "";
+        width: 6px;
+        height: 18px;
+        background: #09e11b;
+        margin: 0 3px;
+        display: inline-block;
+      }
+      .card-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        color: white;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        background-color: rgba(29, 24, 24, 0.8);
+        filter: blur(1px);
+      }
+
+      .card-info h3 {
+        font-size: clamp(16px, 2vw, 20px);
+        color: #e5dbdb;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .card-info p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+      }
+
+      .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        background: #fff;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      .nav-button.prev {
+        left: 0;
+        font-weight: 400;
+        font-size: clamp(18px, 3vw, 60px);
+      }
+      .nav-button.next {
+        right: 0;
+        font-weight: 400;
+        font-size: clamp(18px, 3vw, 60px);
+      }
+
+      @media (max-width: 768px) {
+        .carousel-wrapper {
+          padding: 0 20px;
+        }
+        .nav-button {
+          display: none;
+        }
+        .card {
+          height: 420px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="carousel-container">
+      <div class="carousel-header">
+        <h1>Watch. Feel. Shop.</h1>
+        <p>Paste your video links and you're done</p>
+      </div>
+
+      <div class="carousel-wrapper">
+        <button class="nav-button prev">‹</button>
+
+        <div class="carousel" id="carousel">
+          <!-- CARD 1 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-1.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-1.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info">
+                <h3>20% Off on every stay</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-2.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-2.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info">
+                <h3>A comfort Stay Families</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-3.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-3.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info"></div>
+            </div>
+          </div>
+
+          <!-- CARD 4 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-4.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-4.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info"></div>
+            </div>
+          </div>
+
+          <!-- CARD 5 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-5.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-5.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info">
+                <h3>A Couple Friendly Environment</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 6 -->
+          <div class="card">
+            <video muted autoplay loop playsinline preload="metadata">
+              <source src="./video/Pinewood-Video-6.mp4" type="video/mp4" />
+              <track
+                kind="subtitles"
+                src="./subtitles/Pinewood-Video-6.vtt"
+                srclang="en"
+                label="English"
+              />
+            </video>
+            <div class="card-overlay">
+              <div class="card-play play"></div>
+              <div class="card-info">
+                <h3>Nature Friendly Stay</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-button next">›</button>
+      </div>
+    </div>
+
+    <script>
+      const carousel = document.getElementById("carousel");
+      const prevBtn = document.querySelector(".prev");
+      const nextBtn = document.querySelector(".next");
+
+      prevBtn.onclick = () =>
+        carousel.scrollBy({ left: -320, behavior: "smooth" });
+      nextBtn.onclick = () =>
+        carousel.scrollBy({ left: 320, behavior: "smooth" });
+
+      // Drag scroll
+      let isDown = false,
+        startX,
+        scrollLeft;
+
+      carousel.addEventListener("mousedown", (e) => {
+        if (e.target.tagName === "VIDEO") return;
+        isDown = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+        carousel.classList.add("grabbing");
+      });
+
+      carousel.addEventListener("mouseup", () => {
+        isDown = false;
+        carousel.classList.remove("grabbing");
+      });
+
+      carousel.addEventListener("mouseleave", () => {
+        isDown = false;
+        carousel.classList.remove("grabbing");
+      });
+
+      carousel.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        carousel.scrollLeft = scrollLeft - (x - startX) * 2;
+      });
+
+      document.querySelectorAll(".card").forEach((card) => {
+        const video = card.querySelector("video");
+        const btn = card.querySelector(".card-play");
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+
+          if (video.paused) {
+            video.muted = false;
+            video.play();
+            btn.classList.remove("play");
+            btn.classList.add("pause");
+          } else {
+            video.pause();
+            btn.classList.remove("pause");
+            btn.classList.add("play");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
